@@ -1,0 +1,56 @@
+.form {
+    max-width: 400px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: white;
+    border-radius: 4px;
+  }
+  
+  .field {
+    margin-bottom: 15px;
+  }
+  
+  .label {
+    display: block;
+    margin-bottom: 5px;
+    font-size: 14px;
+  }
+  
+  .input {
+    width: 100%;
+    padding: 8px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
+  
+  .input:focus {
+    outline: none;
+    border-color: #007bff;
+  }
+  
+  .error {
+    color: #ff4d4f;
+    font-size: 12px;
+    margin-top: 5px;
+  }
+  
+  .submitButton {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 14px;
+    width: 100%;
+    cursor: pointer;
+  }
+  
+  .submitButton:hover {
+    background-color: #0056b3;
+  }
+  
+  .submitButton:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }

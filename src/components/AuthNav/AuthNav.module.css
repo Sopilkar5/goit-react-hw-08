@@ -1,0 +1,14 @@
+.authNav {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .link {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: 500;
+  }
+  
+  .link:hover {
+    text-decoration: underline;
+  }
