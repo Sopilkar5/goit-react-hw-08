@@ -1,16 +1,27 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
-axios.defaults.baseURL = 'https://connections-api.goit.global/';
-
+const API_BASE_URL = 'https://connections-api.goit.global'; 
 export const fetchContacts = createAsyncThunk(
   'contacts/fetchAll',
   async (_, thunkAPI) => {
     try {
-      const { data } = await axios.get('/contacts');
+      const { token } = thunkAPI.getState().auth;
+      if (!token) {
+        return thunkAPI.rejectWithValue('No auth token found');
+      }
+      const { data } = await axios.get(`${API_BASE_URL}/contacts`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       return data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      console.error('Fetch contacts error:', {
+        url: `${API_BASE_URL}/contacts`,
+        status: error.response?.status,
+        data: error.response?.data,
+        message: error.message,
+      });
+      return thunkAPI.rejectWithValue(error.response?.data?.message || error.message);
     }
   }
 );
@@ -19,10 +30,19 @@ export const addContact = createAsyncThunk(
   'contacts/addContact',
   async (contact, thunkAPI) => {
     try {
-      const { data } = await axios.post('/contacts', contact);
+      const { token } = thunkAPI.getState().auth;
+      const { data } = await axios.post(`${API_BASE_URL}/contacts`, contact, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       return data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      console.error('Add contact error:', {
+        url: `${API_BASE_URL}/contacts`,
+        status: error.response?.status,
+        data: error.response?.data,
+        message: error.message,
+      });
+      return thunkAPI.rejectWithValue(error.response?.data?.message || error.message);
     }
   }
 );
@@ -31,10 +51,19 @@ export const deleteContact = createAsyncThunk(
   'contacts/deleteContact',
   async (contactId, thunkAPI) => {
     try {
-      await axios.delete(`/contacts/${contactId}`);
+      const { token } = thunkAPI.getState().auth;
+      await axios.delete(`${API_BASE_URL}/contacts/${contactId}`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
       return contactId;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      console.error('Delete contact error:', {
+        url: `${API_BASE_URL}/contacts/${contactId}`,
+        status: error.response?.status,
+        data: error.response?.data,
+        message: error.message,
+      });
+      return thunkAPI.rejectWithValue(error.response?.data?.message || error.message);
     }
   }
 );
@@ -43,10 +72,21 @@ export const updateContact = createAsyncThunk(
   'contacts/updateContact',
   async ({ id, name, number }, thunkAPI) => {
     try {
-      const { data } = await axios.patch(`/contacts/${id}`, { name, number });
+      const { token } = thunkAPI.getState().auth;
+      const { data } = await axios.patch(
+        `${API_BASE_URL}/contacts/${id}`,
+        { name, number },
+        { headers: { Authorization: `Bearer ${token}` } }
+      );
       return data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      console.error('Update contact error:', {
+        url: `${API_BASE_URL}/contacts/${id}`,
+        status: error.response?.status,
+        data: error.response?.data,
+        message: error.message,
+      });
+      return thunkAPI.rejectWithValue(error.response?.data?.message || error.message);
     }
   }
 );

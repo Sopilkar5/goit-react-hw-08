@@ -38,6 +38,9 @@ const authSlice = createSlice({
       })
       .addCase(refreshUser.rejected, (state) => {
         state.isRefreshing = false;
+        state.token = null; // Очищаємо токен при будь-якій помилці
+        state.isLoggedIn = false;
+        state.user = { name: null, email: null };
       });
   },
 });
